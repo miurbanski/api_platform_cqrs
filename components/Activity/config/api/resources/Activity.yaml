@@ -1,0 +1,18 @@
+resources:
+  App\Activity\Application\Command\DuplicateActivity:
+    itemOperations:
+      get: ~
+    collectionOperations:
+      post:
+        path: /activities/{id}/duplicate
+        security: '(is_granted("ROLE_ROOT") or is_granted("ROLE_ADMIN") or is_granted("ROLE_CLIENT_MANAGER") or is_granted("ROLE_OFFICE") or is_granted("ROLE_USER") or is_granted("ROLE_CLIENT") or is_granted("ROLE_SUPERVISIOR") or is_granted("ROLE_USER_SUBCONTRACTOR")) and is_granted("check_activity") and is_granted("CAN_CREATE_ACTIVITY")'
+        status: 201
+        input: App\Activity\Infrastructure\ApiPlatform\Resource\Request\DuplicateActivity\DuplicateActivityRequest
+        normalization_context:
+          skip_null_values: true
+          groups: [ 'read:activity:detail','read:activity-protocol:detail','read:activity:detail:source','read:activity-settlement-protocol:detail' ]
+        openapi_context:
+          tags:
+            - Activity
+    attributes:
+      messenger: true
